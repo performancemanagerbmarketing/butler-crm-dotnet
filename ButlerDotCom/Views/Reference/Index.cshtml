@@ -1,0 +1,69 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Sub-DashLayout.cshtml";
+}
+<div ng-controller="ReferenceCtrl" ng-init="init()" class="container-fluid body-content">
+    <div class="row crds ml-1 p-3 br5">
+        <div class="col-10">
+            <h2>Reference</h2>
+        </div>
+        <div class="col-2 d-flex justify-content-end">
+            <a href="/Reference/Add" class="btn btn-success">
+                Add <i class="fas fa-plus"></i>
+            </a>
+        </div>
+    </div>
+    
+    <div class="row crds ml-1 mt-2 br5">
+        <div class="col-12 mb-4 ">
+            <div class="card-body">
+                <div style="width:100%; margin:0 auto;" class="table-responsive">
+                    <table id="dataTable" class="table table-striped table-bordered dt-responsive nowrap" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>Ref. Id</th>
+                                <th>Profile Image</th>
+                                <th>Full Name</th>
+                                <th>Notes</th>
+                                <th>Address</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+</div>
+
+
+
+<script>
+
+    $(document).ready(function () {
+        $("#dataTable").DataTable({
+            "ajax": {
+                "url": "/api/ReferenceApi/GetListing",
+                "type": "GET",
+                "dataSrc": "Data"
+            },
+            "columns": [
+                { "data": "Id" },
+                {
+                    "render": function (data, type, row) { return '<image class="dataTable-img" src="'+row["ProfileImageUrl"]+'"/>'; }
+                },
+                { "data": "FullName" },
+                { "data": "Notes" },
+                { "data": "Address" },
+                {
+                    "render": function (data, type, row) { return '<a style="color:#d49e11" class="" href="/Reference/Edit?Id=' + row["Id"] + '"><i class="fas fa-pencil-alt mt-3"></i></a>'; },
+                    "className": "text-center"
+                    
+                }
+            ]
+        });
+    });
+</script>
+

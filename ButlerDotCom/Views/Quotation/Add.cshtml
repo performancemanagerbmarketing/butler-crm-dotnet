@@ -1,0 +1,48 @@
+﻿
+@{
+    ViewBag.Title = "Add";
+}
+
+<div ng-controller="QuotationCtrl" ng-init="AddInit()" class="container-fluid body-content">
+    <div class="row crds ml-1 p-3 br5">
+        <div class="col-12 d-flex align-items-center justify-content-between">
+            <h4>Add Quotation</h4>
+        </div>
+    </div>
+
+    <div class="crds ml-1 p-3 br5 mt-2">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <lable>Name</lable>
+                    <input class="form-control" type="text" ng-model="Quotation.Name" placeholder="Enter Name">
+                </div>
+            </div>
+
+
+            <div class="col-md-6">
+                <div class="form-group">
+                    <lable>Number</lable>
+                    <input class="form-control" type="text" ng-model="Quotation.Number" placeholder="Enter Number">
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="form-group">
+                    <lable>Service</lable>
+                    <input class="form-control" type="text" ng-model="Quotation.Service" placeholder="Enter Service">
+                </div>
+            </div>
+
+        </div>
+       
+        <div class="row">
+            <div class="col-12 ">
+                <a ng-click="AddQuotation(Quotation)" class="btn btn-primary float-right">
+                    Submit
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+

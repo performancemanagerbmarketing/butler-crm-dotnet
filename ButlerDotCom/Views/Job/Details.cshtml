@@ -1,0 +1,367 @@
+﻿@using Microsoft.AspNet.Identity;
+@using UserRoles = Butler.Model.Enum.Roles;
+@{
+    ViewBag.Title = "Details";
+}
+
+<div ng-controller="JobCtrl" ng-init="EditInit()" class="container-fluid body-content">
+
+    <div class="row crds ml-1 p-3 br5">
+        <div class="col-6 d-flex align-items-center justify-content-between">
+            <h4>Job Details</h4>
+        </div>
+    </div>
+
+    <div class="main-body mt-2">
+        <div class="row gutters-sm">
+            <div class="col-md-4 mb-3">
+                <div class="card" style="
+    height: 379px;
+">
+                    <div class="card-body">
+                        <div class="d-flex flex-column align-items-center text-center">
+                            <img ng-if="Job.ProfileImageUrl != null" ng-src="{{Job.ProfileImageUrl}}" alt="issue" class="rounded-circle" style="border-radius:50%!important;" width="150">
+                            <div class="mt-3">
+                                <h4>Customer Name : <b>{{Job.Customer.FullName}}</b></h4>
+                                <p class="text-secondary mb-1">Job Title : {{Job.Title}}</p>
+                                <p class="text-muted font-size-sm">Job Status : {{Job.StatusEnum}}</p>
+                                <p ng-if="Job.PaymentStatusEnum != 'Pending' " class="text-muted font-size-sm">Payment Status : {{Job.PaymentStatusEnum}}</p>
+                                @*<p><b>Uploaded Image:</b></p>
+                                    <div>
+                                        <img src="{{Job.ImageUrl}} " />
+                                    </div>*@
+                            </div>
+                            <div class="row d-flex flex-column align-items-center ">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-md-8">
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <h6 class="mb-0">Description</h6>
+                            </div>
+                            <div class="col-sm-9 text-secondary">
+                                {{Job.Description}}
+                            </div>
+                        </div>
+                        <hr>
+
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <h6 class="mb-0">Location</h6>
+                            </div>
+                            <div class="col-sm-9 text-secondary">
+                                {{Job.JobAddress}}
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <h6 class="mb-0">ControlCenter</h6>
+                            </div>
+                            <div class="col-sm-9 text-secondary">
+                                {{Job.ControlCenter.Name}}
+                            </div>
+                        </div>
+                        <hr>
+
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <h6 class="mb-0">Category</h6>
+                            </div>
+                            <div class="col-sm-9 text-secondary">
+                                {{Job.Category.Name}}
+                            </div>
+                        </div>
+                        <hr>
+
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <h6 class="mb-0">Job Status</h6>
+                            </div>
+                            <div ng-if="Job.StatusEnum != 'Complete'" class="col-sm-9 text-secondary">
+                                <select ng-model="Job.Status" ng-options="Job.Id as Job.Name for Job in JobStatus" class="form-control">
+                                    <option ng-selected="Job.StatusEnum == Job.Name" ng-repeat="Job in JobStatus" value="{{Job.Id}}">{{Job.Name}}</option>
+                                </select>
+                            </div>
+                            <div ng-if="Job.StatusEnum == 'Complete'" class="col-sm-9 text-secondary">
+                                {{Job.StatusEnum}}
+                            </div>
+                            <div ng-if="Job.StatusEnum == 'Cancelled'" class="col-sm-9 text-secondary">
+                                {{Job.StatusEnum}}
+                            </div>
+                        </div>
+                        <hr>
+                    </div>
+                    @if (User.IsInRole(UserRoles.Controller))
+                    {
+                        <div ng-if="Job.StatusEnum != 'Complete' && Job.StatusEnum != 'Cancelled'" class="row  d-flex justify-content-end mb-3">
+                            <button class="btn btn-success" ng-click="UpdateStatus(Job.Status)">Update</button>
+                        </div>
+                        <div ng-if="(Job.StatusEnum == 'Complete' || Job.StatusEnum == 'Cancelled') && Job.PaymentStatus == 0" class="row  d-flex justify-content-end mb-3">
+                            <button class="btn btn-success" ng-click="UpdatePaymentStatus()">Amount Paid</button>
+                        </div>
+                    }
+
+                    <div ng-if="Job.PaymentStatus == 1" class="row  d-flex justify-content-end mb-3">
+                        <a class="btn btn-success" target="_blank" href="/Job/Print?Id={{Job.Id}}">Print</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="row crds ml-1 mt-2 br5">
+        <div class="col-12 mb-4 ">
+            <div class="card-body">
+                <div class="row d-flex justify-content-between">
+                    <h4>Workers</h4>
+                    <div class="col-md-6">
+                        @if (User.IsInRole(UserRoles.Controller))
+                        {
+                            <div ng-if="Job.StatusEnum != 'Complete'" class="form-group">
+                                <lable>Worker</lable>
+                                <ui-select ng-model="Job.Worker" theme="select2" class="form-control select-dropdown">
+                                    <ui-select-match placeholder="Select a Worker in the list...">{{$select.selected.Name}}</ui-select-match>
+                                    <ui-select-choices repeat="item in WorkerDropdownList | filter: $select.search">
+                                        <div ng-bind-html="item.Name | highlight: $select.search"></div>
+                                    </ui-select-choices>
+                                </ui-select>
+                            </div>
+                        }
+                    </div>
+                </div>
+                <div style="width:100%; margin:0 auto;" class="table-responsive">
+                    <table id="dataTable" class="table table-striped table-bordered dt-responsive nowrap" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>Worker Name</th>
+                                <th>CNIC</th>
+                                <th>Contact</th>
+                                <th>Action</th>
+                            </tr>
+                            <tr ng-if="Job.StatusEnum != 'Complete'" ng-repeat="row in Job.JobWorker">
+                                <td><input class="form-control" type="text" ng-model="row.WorkerName" /></td>
+                                <td><input class="form-control" type="text" ng-model="row.CNIC" /></td>
+                                <td><input class="form-control" type="text" ng-model="row.Contact" /></td>
+                                <td><a href="" ng-click="DeleteWorker($index)"><i class="fas fa-trash"></i></a></td>
+                            </tr>
+                            <tr ng-if="Job.StatusEnum == 'Complete'" ng-repeat="row in Job.JobWorker">
+                                <td><input disabled class="form-control" type="text" ng-model="row.WorkerName" /></td>
+                                <td><input disabled class="form-control" type="text" ng-model="row.CNIC" /></td>
+                                <td><input disabled class="form-control" type="text" ng-model="row.Contact" /></td>
+                                <td>@*<a href="" ng-click="DeleteWorker($index)"><i class="fas fa-trash"></i></a>*@</td>
+                            </tr>
+                        </thead>
+                    </table>
+                    @if (User.IsInRole(UserRoles.Controller))
+                    {
+                        <div class="row d-flex justify-content-between">
+                            <button ng-if="Job.StatusEnum != 'Complete'" class="btn btn-success ml-2 " style="margin-left: 16px !important;" ng-click="AddWorker(Job.Worker)">Submit</button>
+                            <button ng-if="Job.StatusEnum != 'Complete'" class="btn btn-primary" ng-click="AddRow(Job.Worker)">Add Row</button>
+                        </div>
+
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row crds ml-1 mt-2 br5">
+        <div class="col-12 mb-4 ">
+            <div class="card-body">
+                <div class="row d-flex justify-content-between">
+                    <h4>Sub Categories</h4>
+                    <div class="col-md-6">
+                        @if (User.IsInRole(UserRoles.Controller) || User.IsInRole(UserRoles.Admin))
+                        {
+                            <div ng-if="Job.StatusEnum != 'Complete'" class="form-group">
+                                <lable>SubCategory</lable>
+                                <ui-select ng-model="Job.SubCategory" theme="select2" class="form-control select-dropdown">
+                                    <ui-select-match placeholder="Select a Category in the list...">{{$select.selected.Name}}</ui-select-match>
+                                    <ui-select-choices repeat="item in SubCategoryDropdownList | filter: $select.search">
+                                        <div ng-bind-html="item.Name | highlight: $select.search"></div>
+                                    </ui-select-choices>
+                                </ui-select>
+                            </div>
+                        }
+
+                    </div>
+                </div>
+                <div style="width:100%; margin:0 auto;" class="table-responsive">
+                    <table id="dataTable" class="table table-striped table-bordered dt-responsive nowrap" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Amount</th>
+                                <th>Action</th>
+                            </tr>
+                            <tr ng-if="Job.StatusEnum != 'Complete'" ng-repeat="row in Job.JobDetail">
+                                <td><input class="form-control" type="text" ng-model="row.SubCategoryName" /></td>
+                                <td><input class="form-control" type="number" ng-model="row.Amount" /></td>
+                                <td><a href="" ng-click="DeleteSub($index,row.Amount)"><i class="fas fa-trash"></i></a></td>
+                            </tr>
+                            <tr ng-if="Job.StatusEnum == 'Complete'" ng-repeat="row in Job.JobDetail">
+                                <td><input disabled class="form-control" type="text" ng-model="row.SubCategoryName" /></td>
+                                <td><input disabled class="form-control" type="number" ng-model="row.Amount" /></td>
+                                <td>@*<a href="" ng-click="deletesub($index,row.amount)"><i class="fas fa-trash"></i></a>*@</td>
+                            </tr>
+                            <tr>
+                                <td class="text-right">Total</td>
+                                <td>{{CalculateTotal(Job.JobDetail,'Amount') | number}}</td>
+                                <td></td>
+                            </tr>
+                        </thead>
+                    </table>
+                    @if (User.IsInRole(UserRoles.Controller) || User.IsInRole(UserRoles.Admin))
+                    {
+                        <div class="row d-flex justify-content-between">
+                            <button ng-if="Job.StatusEnum != 'Complete'" class="btn btn-success ml-2 " style="margin-left: 16px !important;" ng-click="AddSubCategory()">Submit</button>
+                            <button ng-if="Job.StatusEnum != 'Complete'" class="btn btn-primary" style=" margin-right: 6px!important;" ng-click="AddRowSub(Job.SubCategory)">Add Row</button>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row crds ml-1 mt-2 br5">
+        <div class="col-12 mb-4 ">
+            <div class="card-body">
+                <div class="row d-flex justify-content-between">
+                    <h4>Other Services</h4>
+                    <div class="col-md-6">
+                        @if (User.IsInRole(UserRoles.Controller) || User.IsInRole(UserRoles.Admin))
+                        {
+                        <div class="row d-flex justify-content-end mb-3">
+                            <button ng-if="Job.StatusEnum != 'Complete'" class="btn btn-primary" style=" margin-right: 6px!important;" ng-click="AddOtherRow()">Add Row</button>
+                        </div>
+                        }
+
+                    </div>
+                </div>
+                <div style="width:100%; margin:0 auto;" class="table-responsive">
+                    <table id="dataTable" class="table table-striped table-bordered dt-responsive nowrap" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Amount</th>
+                                <th>Action</th>
+                            </tr>
+                            <tr ng-if="Job.StatusEnum != 'Complete'" ng-repeat="row in Job.Others">
+                                <td><input class="form-control" type="text" ng-model="row.OthersName" /></td>
+                                <td><input class="form-control" type="number" ng-model="row.Cost" /></td>
+                                <td><a href="" ng-click="DeleteOther($index,row.Amount)"><i class="fas fa-trash"></i></a></td>
+                            </tr>
+                            <tr ng-if="Job.StatusEnum == 'Complete'" ng-repeat="row in Job.Others">
+                                <td><input disabled class="form-control" type="text" ng-model="row.OthersName" /></td>
+                                <td><input disabled class="form-control" type="number" ng-model="row.Cost" /></td>
+                                <td>@*<a href="" ng-click="deletesub($index,row.amount)"><i class="fas fa-trash"></i></a>*@</td>
+                            </tr>
+                            <tr>
+                                <td class="text-right">Total</td>
+                                <td>{{CalculateTotal(Job.Others,'Cost') | number}}</td>
+                                <td></td>
+                            </tr>
+                        </thead>
+                    </table>
+                    @if (User.IsInRole(UserRoles.Controller) || User.IsInRole(UserRoles.Admin))
+                    {
+                        <div class="row d-flex justify-content-end">
+                            <button ng-if="Job.StatusEnum != 'Complete'" class="btn btn-success ml-2 " style="margin-left: 16px !important;" ng-click="AddOtherService(Job.Others)">Submit</button>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row crds ml-1 mt-2 br5">
+        <div class="col-12 mb-4 ">
+            <div class="card-body">
+                <div class="row d-flex justify-content-between">
+                    <h4 ng-if="Job.Type != 1">Material Cost</h4>
+                    <h4 ng-if="Job.Type == 1">Equipment Cost</h4>
+                    <div>
+
+                    </div>
+                </div>
+                <div style="width:100%; margin:0 auto;" class="table-responsive">
+                    <table id="dataTable" class="table table-striped table-bordered dt-responsive nowrap" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th ng-if="Job.Type != 1">Material Name</th>
+                                <th ng-if="Job.Type != 1">Material Cost</th>
+                                <th ng-if="Job.Type == 1">Equipment Name</th>
+                                <th ng-if="Job.Type == 1">Equipment Cost</th>
+                                <th>Action</th>
+                            </tr>
+                            <tr ng-if="Job.StatusEnum != 'Complete'" ng-repeat="row in Job.Material">
+                                <td><input class="form-control" type="text" ng-model="row.MaterialName" /></td>
+                                <td><input class="form-control" ng-change="UpdateTotalAmount()" type="number" ng-model="row.Cost" /></td>
+                                <td><a href="" ng-click="DeleteMaterial($index,row.MaterialCost)"><i class="fas fa-trash"></i></a></td>
+                            </tr>
+                            <tr ng-if="Job.StatusEnum == 'Complete'" ng-repeat="row in Job.Material">
+                                <td><input disabled class="form-control" type="text" ng-model="row.MaterialName" /></td>
+                                <td><input disabled class="form-control" ng-change="UpdateTotalAmount()" type="number" ng-model="row.Cost" /></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td class="text-right">Total</td>
+                                <td>{{CalculateTotal(Job.Material,'Cost') | number}}</td>
+                                <td></td>
+                            </tr>
+
+                        </thead>
+                    </table>
+                    @if (User.IsInRole(UserRoles.Controller) || User.IsInRole(UserRoles.Admin))
+                    {
+                        <div ng-if="Job.StatusEnum != 'Complete'" class="row d-flex justify-content-between">
+                            <button class="btn btn-success ml-2 " style="margin-left: 16px !important;" ng-click="AddMaterialCost(Job.Material)">Add Material Cost   </button>
+                            <button class="btn btn-primary" style=" margin-right: 6px!important;" ng-click="AddMaterialRow()">Add Row</button>
+                        </div>
+                    }
+                    <div class="row mt-4">
+                        <div class="col-md-6">
+                            <input class="form-control" type="number" placeholder="Enter Discount Amount" ng-model="Job.Discount" />
+                        </div>
+                        <div class="col-md-3">
+                            <button ng-if="Job.StatusEnum != 'Complete'" class="btn btn-success ml-2 " style="margin-left: 16px !important;" ng-click="ApplyDiscount(Job)">Apply Discount</button>
+                        </div>
+
+                    </div>
+                    <div class="row mt-4">
+                        <div class="col-12">
+                            <div class="row">
+                                <div class="col-9 text-right">Total Services =</div>
+                                <div class="col-3 " style="border-bottom: 1px solid;"><b>{{CalculateTotal(Job.JobDetail,'Amount') | number}}</b></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-9 text-right">Other Total Services =</div>
+                                <div class="col-3 " style="border-bottom: 1px solid;"><b>{{CalculateTotal(Job.Others,'Cost') | number}}</b></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-9 text-right">Total Material =</div>
+                                <div class="col-3 " style="border-bottom: 1px solid;"><b>{{CalculateTotal(Job.Material,'Cost') | number}}</b></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-9 text-right">Discount =</div>
+                                <div class="col-3 " style="border-bottom: 1px solid;"><b>{{ Job.Discount | number}}</b></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-9 text-right">Total Amount =</div>
+                                <div class="col-3 "><b>{{CalculateTotal(Job.Material,'Cost')  + CalculateTotal(Job.JobDetail,'Amount')  + CalculateTotal(Job.Others,'Cost') - Job.Discount | number}}</b></div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

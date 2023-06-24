@@ -1,0 +1,112 @@
+﻿
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Sub-DashLayout.cshtml";
+}
+
+<div ng-controller="JobCtrl" ng-init="EditInit()" class="container-fluid body-content">
+    <div class="row crds ml-1 p-3 br5">
+        <div class="col-12 d-flex align-items-center justify-content-between">
+            <h4>Edit Job</h4>
+        </div>
+    </div>
+
+    <div class="crds ml-1 p-3 br5 mt-2">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <lable>Title</lable>
+                    <input class="form-control" disabled type="text" ng-model="Job.Title" placeholder="Enter Name">
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <lable>Description</lable>
+                    <input class="form-control" disabled type="text" ng-model="Job.Description" placeholder="Enter Description">
+                </div>
+            </div>
+            <div class="col-md-6">
+                <label>Job Status</label> 
+                <select disabled ng-model="Job.Status" ng-options="Job.Id as Job.Name for Job in JobStatus" class="form-control">
+                    <option ng-selected="Job.Id == Job.Status" ng-repeat="Job in JobStatus" value="{{Job.Id}}">{{Job.Name}}</option>
+                </select>
+
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <lable>Payment Status</lable>
+                    <select disabled ng-model="Job.PaymentStatus" class="form-control">
+                        <option selected value="">Select Job Status</option>
+                        <option ng-selected="Payment.Id == Job.PaymentStatus" ng-repeat="Payment in PaymentStatus" value="{{Payment.Id}}">{{Payment.Name}}</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <lable>Customer</lable>
+                    <input class="form-control" readonly type="text" ng-model="Job.Customer.FullName" placeholder="">
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <lable>Address</lable>
+                    <input class="form-control" readonly type="text" ng-model="Job.JobAddress" placeholder="">
+                </div>
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <lable>Booking Date</lable>
+                    <input class="form-control" readonly type="text" ng-model="Job.BookingDate" placeholder="">
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <lable>Control Center</lable>
+                    <ui-select ng-model="Job.ControlCenter" theme="select2" class="form-control select-dropdown">
+                        <ui-select-match placeholder="Select a Control Center in the list...">{{$select.selected.Name}}</ui-select-match>
+                        <ui-select-choices repeat="item in ControlCenterDropdownList | filter: $select.search">
+                            <div ng-bind-html="item.Name | highlight: $select.search"></div>
+
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <lable>Category</lable>
+                    <ui-select ng-model="Job.Category" theme="select2" class="form-control select-dropdown">
+                        <ui-select-match placeholder="Select a Category in the list...">{{$select.selected.Name}}</ui-select-match>
+                        <ui-select-choices repeat="item in CategoryDropdownList | filter: $select.search">
+                            <div ng-bind-html="item.Name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-6">
+                <label>Profile Image</label>
+                <input type="file" accept="image/*" ngf-select="UploadJobImage($files,'ImageUrl')" class="form-control-file" />
+            </div>
+            <div class="form-group col-md-6">
+                <img style="max-height: 413px;max-width:200px" src="{{Job.ImageUrl}}" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 ">
+                <a ng-click="EditJob(Job)" class="btn btn-primary float-right">
+                    Submit
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+

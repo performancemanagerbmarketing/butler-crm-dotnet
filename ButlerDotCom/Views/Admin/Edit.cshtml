@@ -1,0 +1,91 @@
+﻿
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Sub-DashLayout.cshtml";
+}
+
+<div ng-controller="UserCtrl" ng-init="EditInit()" class="container-fluid body-content">
+    <div class="row crds ml-1 p-3 br5">
+        <div class="col-12 d-flex align-items-center justify-content-between">
+            <h4>Edit Admin</h4>
+        </div>
+    </div>
+
+    <div class="crds ml-1 p-3 br5 mt-2">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <lable>First Name</lable>
+                    <input class="form-control" type="text" ng-model="Admin.FirstName" placeholder="Enter First Name">
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <lable>Last Name</lable>
+                    <input class="form-control" type="text" ng-model="Admin.LastName" placeholder="Enter Last Name">
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <lable>User Name</lable>
+                    <input class="form-control" type="text" ng-model="Admin.UserName" placeholder="Enter User Name" readonly>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <lable>Contact</lable>
+                    <input class="form-control" type="text" ng-model="Admin.Contact" placeholder="Enter Contact">
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <lable>Address</lable>
+                    <input class="form-control" type="text" ng-model="Admin.Address" placeholder="Enter Address">
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <lable>Email</lable>
+                    <input class="form-control" type="email" ng-model="Admin.Email" placeholder="Enter Email" readonly>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <lable>Approval Status</lable>
+                    <div class="row">
+                        <div class="ml-3 col-md-2">
+                            <input class="form-check-input" ng-model="Admin.ApprovalStatusString" ng-checked="Admin.ApprovalStatus == true" type="radio" name="exampleRadios" id="exampleRadios1" value="true">
+                            <label class="form-check-label" for="exampleRadios1">
+                                Yes
+                            </label>
+                        </div>
+                        <div class="col-md-3">
+                            <input class="form-check-input" ng-model="Admin.ApprovalStatusString" ng-checked="Admin.ApprovalStatus == false" type="radio" name="exampleRadios" id="exampleRadios2" value="false">
+                            <label class="form-check-label" for="exampleRadios1">
+                                No
+                            </label>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-6">
+                <label>Profile Image</label>
+                <input type="file" accept="image/*" ngf-select="UploadAdminImage($files,'ProfileImageUrl')" class="form-control-file" />
+            </div>
+            <div class="form-group col-md-6">
+                <img style="max-height: 413px;max-width:200px" src="{{Admin.ProfileImageUrl}}" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 ">
+                <a ng-click="EditAdmin(Admin)" class="btn btn-primary float-right">
+                    Submit
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+

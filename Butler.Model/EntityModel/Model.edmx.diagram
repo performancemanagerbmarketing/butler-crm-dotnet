@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="a77b6985f00e437781709ba6cd2fac97" Name="Diagram1" ZoomLevel="64">
+        <EntityTypeShape EntityType="ButlerModel.AspNetRoles" Width="1.5" PointX="1.5" PointY="19" />
+        <EntityTypeShape EntityType="ButlerModel.AspNetUserClaims" Width="1.5" PointX="3.75" PointY="28.75" />
+        <EntityTypeShape EntityType="ButlerModel.AspNetUserLogins" Width="1.5" PointX="3.75" PointY="26.25" />
+        <EntityTypeShape EntityType="ButlerModel.AspNetUsers" Width="1.5" PointX="1.5" PointY="0.75" />
+        <EntityTypeShape EntityType="ButlerModel.Category" Width="1.5" PointX="0.75" PointY="14.25" />
+        <EntityTypeShape EntityType="ButlerModel.ControlCenter" Width="1.5" PointX="3.75" PointY="18.5" />
+        <EntityTypeShape EntityType="ButlerModel.ControllerCategory" Width="1.5" PointX="3" PointY="10.25" />
+        <EntityTypeShape EntityType="ButlerModel.Customer" Width="1.5" PointX="8.75" PointY="3.5" />
+        <EntityTypeShape EntityType="ButlerModel.Job" Width="1.5" PointX="6" PointY="11.5" />
+        <EntityTypeShape EntityType="ButlerModel.JobDetail" Width="1.5" PointX="11.25" PointY="14" />
+        <EntityTypeShape EntityType="ButlerModel.JobWorker" Width="1.5" PointX="8.25" PointY="22.625" />
+        <EntityTypeShape EntityType="ButlerModel.MaterialCost" Width="1.5" PointX="8.25" PointY="10.875" />
+        <EntityTypeShape EntityType="ButlerModel.Notification" Width="1.5" PointX="10.75" PointY="3.5" />
+        <EntityTypeShape EntityType="ButlerModel.Reference" Width="1.5" PointX="10.75" PointY="7.5" />
+        <EntityTypeShape EntityType="ButlerModel.ServiceRating" Width="1.5" PointX="8.25" PointY="14.25" />
+        <EntityTypeShape EntityType="ButlerModel.SubCategory" Width="1.5" PointX="3" PointY="14.375" />
+        <EntityTypeShape EntityType="ButlerModel.UserFileUpload" Width="1.5" PointX="3" PointY="22.5" />
+        <EntityTypeShape EntityType="ButlerModel.UserProfile" Width="1.5" PointX="0.75" PointY="6.625" />
+        <EntityTypeShape EntityType="ButlerModel.Worker" Width="1.5" PointX="3.75" PointY="4" />
+        <AssociationConnector Association="ButlerModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" />
+        <AssociationConnector Association="ButlerModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" />
+        <AssociationConnector Association="ButlerModel.FK_UserProfile_User" />
+        <AssociationConnector Association="ButlerModel.FK_ControllerCategory_Category" />
+        <AssociationConnector Association="ButlerModel.FK_Job_Category" />
+        <AssociationConnector Association="ButlerModel.FK_SubCategory_Category" />
+        <AssociationConnector Association="ButlerModel.FK_Job_ControlCenter" />
+        <AssociationConnector Association="ButlerModel.FK_ControllerCategory_UserProfile" />
+        <AssociationConnector Association="ButlerModel.FK_Job_UserProfile" />
+        <AssociationConnector Association="ButlerModel.FK_JobDetail_Job" />
+        <AssociationConnector Association="ButlerModel.FK_JobWorker_Job" />
+        <AssociationConnector Association="ButlerModel.FK_MaterialCost_Job" />
+        <AssociationConnector Association="ButlerModel.FK_ServiceRating_Job" />
+        <AssociationConnector Association="ButlerModel.FK_JobDetail_SubCategory" />
+        <AssociationConnector Association="ButlerModel.FK_UserFileUpload_UserProfile" />
+        <AssociationConnector Association="ButlerModel.AspNetUserRoles" />
+        <EntityTypeShape EntityType="ButlerModel.WorkerAttendance" Width="1.5" PointX="3" PointY="31.75" />
+        <AssociationConnector Association="ButlerModel.FK_WorkerAttendance_UserProfile" />
+        <EntityTypeShape EntityType="ButlerModel.Others" Width="1.5" PointX="8.25" PointY="19" />
+        <AssociationConnector Association="ButlerModel.FK_Others_Job" />
+        <EntityTypeShape EntityType="ButlerModel.ContactUs" Width="1.5" PointX="4.375" PointY="0.75" />
+        <EntityTypeShape EntityType="ButlerModel.Quotations" Width="1.5" PointX="13.375" PointY="0.75" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

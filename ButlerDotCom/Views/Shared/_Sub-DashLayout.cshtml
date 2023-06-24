@@ -1,0 +1,334 @@
+﻿@using Microsoft.AspNet.Identity;
+@using UserRoles = Butler.Model.Enum.Roles;
+<!DOCTYPE html>
+<html ng-app="Butler">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Butler</title>
+    @*<link href="css/styles.css" rel="stylesheet" />*@
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+    <link href="~/Content/SubDashboard.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <link href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css" rel="stylesheet" />
+    <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/js/all.min.js" crossorigin="anonymous"></script>
+    @*<link href="~/Content/jquery.dataTables.min.css" rel="stylesheet" />
+        <link href="~/Content/dataTables.bootstrap4.min.css" rel="stylesheet" />*@
+    @*<link href="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.21/js/jquery.dataTables.min.js ">*@
+    @*ui-slect theme*@
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/3.4.5/select2.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.8.5/css/selectize.default.css">
+    <link href="~/Content/UiSelect2/Select.css" rel="stylesheet" />
+    <link href="~/Content/toaster.css" rel="stylesheet" />
+
+
+
+</head>
+<body class="sb-nav-fixed" ng-controller="baseCtrl" ng-class="ServiceClassBinder" ng-cloak ng-init="InitNav()">
+    <toaster-container toaster-options="{'time-out': 7000}"></toaster-container>
+    <div class="loader" ng-if="TotalNumberOfServicesRunning > 0"></div>
+    <nav class="sb-topnav nav-margin navbar navbar-expand navbar-dark bg-light">
+        @*<a href="" style="padding-right:3%;">
+                <img src="~/Content/Images/TIMS-logo.png" alt="" width="110" height="35" class="d-inline-block align-top">
+            </a>*@
+
+        <button class="btn-visibility btn btn-link btn-sm order-1 order-lg-0" id="sidebarToggle" href="#"><i class="fas fa-bars"></i></button>
+        <!-- Navbar Search-->
+        <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
+            @*<div class="input-group">
+                    <input class="form-control" type="text" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2" />
+                    <div class="input-group-append">
+                        <button class="btn btn-primary" type="button"><i class="fas fa-search"></i></button>
+                    </div>
+                </div>*@
+        </form>
+        <!-- Navbar-->
+        @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" }))
+        {@Html.AntiForgeryToken()
+        <ul class="navbar-nav ml-auto ml-md-0 d-flex align-baseline">
+            <li>
+                @*<a href="#"><img class="header-icons" src="https://img.icons8.com/fluency-systems-regular/48/000000/appointment-reminders--v1.png" /></a>*@
+                <a class="" id="bell"> <img class="header-icons" src="https://img.icons8.com/fluency-systems-regular/48/000000/appointment-reminders--v1.png" alt=""></a>
+                <div class="notifications" id="box">
+                    <h2>Notifications - <span>{{Notifications.length}}</span></h2>
+                    <a ng-click="IsRead(noti)" class="notifications-item" ng-repeat="noti in Notifications">
+                        @*<img src="https://i.imgur.com/uIgDDDd.jpg" alt="img">*@
+                        <div class="text">
+                            <h4>{{noti.Title}}</h4>
+                            <p>{{noti.Content}}</p>
+                            <p>{{noti.Duration}}</p>
+                        </div>
+                    </a>
+                </div>
+            </li>
+            <li>
+                <a href="#"><img class="header-icons" src="https://img.icons8.com/external-flatart-icons-outline-flatarticons/50/000000/external-message-contact-flatart-icons-outline-flatarticons.png" /></a>
+            </li>
+            <li>
+                <a href="javascript:document.getElementById('logoutForm').submit()"><img class="header-icons" src="https://img.icons8.com/ios/50/000000/exit.png" /></a>
+            </li>
+
+        </ul>
+    }
+
+    </nav>
+    <div id="layoutSidenav">
+        <div id="layoutSidenav_nav">
+            <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+                <div class="sb-sidenav-menu font-12">
+                    <a href="~/Home" style="padding-right:3%;">
+                        <img class="dashboard-logo" src="~/Content/Images/png_logo_purple.png" />
+                    </a>
+                    <div ng-if="CurrentUser.ProfileImageUrl == null || CurrentUser.ProfileImageUrl == '' " class="user-avatar">
+                        <img class="image-fit user-avatar-image" src="~/Content/Images/ava.png" />
+                    </div>
+                    <div ng-if="CurrentUser.ProfileImageUrl != null && CurrentUser.ProfileImageUrl != ''" class="user-avatar">
+                        <img class="image-fit user-avatar-image" src="{{CurrentUser.ProfileImageUrl}}" />
+                    </div>
+                    <div class="sb-sidenav-menu-heading" style="padding-top:0px; text-align:center;"><b>{{CurrentUser.FullName}}</b></div>
+                    <div class="sb-sidenav-menu-heading" style="padding-top:0px; text-align:center;">{{CurrentUser.UserTypeEnum}}</div>
+
+                    <div class="nav">
+                        <div class="sb-sidenav-menu-heading" style="padding-top:0px;">Interface</div>
+                        <a class="nav-link" href="~/Home">
+                            <div class="sb-nav-link-icon"><img src="https://img.icons8.com/color/20/000000/admin-settings-male.png" /></div>
+                            Dashboard
+                        </a>
+                        <a class="nav-link" href="/Job/">
+                            <div class="sb-nav-link-icon"><img src="https://img.icons8.com/office/20/000000/inspection.png" /></div>
+                            Lively Inspections
+                        </a>
+                        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#jobLayouts" aria-expanded="false">
+                            <div class="sb-nav-link-icon"><img src="https://img.icons8.com/color/20/000000/job--v1.png" /></div>
+                            Jobs
+                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                        </a>
+                        <div class="collapse" id="jobLayouts" aria-labelledby="headingOne">
+                            <nav class="sb-sidenav-menu-nested nav">
+                                <a class="nav-link" href="/Job/">List</a>
+                            </nav>
+                        </div>
+                        @if (User.IsInRole(UserRoles.SuperAdmin) || User.IsInRole(UserRoles.Admin))
+                        {
+                            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseLayouts" aria-expanded="false">
+                                <div class="sb-nav-link-icon"><img src="https://img.icons8.com/officel/20/000000/select-users.png" /></div>
+                                User Management
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                            </a>
+                            <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne">
+                                <nav class="sb-sidenav-menu-nested nav">
+                                    @if (User.IsInRole(UserRoles.SuperAdmin))
+                                    {
+                                        <a class="nav-link" href="/Admin/">Admin</a>
+                                    }
+                                    <a class="nav-link" href="/Controller/">Controller</a>
+                                    <a class="nav-link" href="/Customer/">Customer</a>
+                                    <a class="nav-link" href="/Worker/">Worker</a>
+                                </nav>
+                            </div>
+                        }
+
+                        @if (User.IsInRole(UserRoles.SuperAdmin) || User.IsInRole(UserRoles.Admin))
+                        {
+                            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#categoryLayout" aria-expanded="false">
+                                <div class="sb-nav-link-icon"><img src="https://img.icons8.com/officel/20/000000/parallel-tasks.png" /></div>
+                                Category
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                            </a>
+                            <div class="collapse" id="categoryLayout" aria-labelledby="headingOne">
+                                <nav class="sb-sidenav-menu-nested nav">
+                                    <a class="nav-link" href="/Category/">List</a>
+                                </nav>
+                            </div>
+                        }
+                        @if (User.IsInRole(UserRoles.SuperAdmin) || User.IsInRole(UserRoles.Admin))
+                        {
+                            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#subcategoryLayout" aria-expanded="false">
+                                <div class="sb-nav-link-icon"><img src="https://img.icons8.com/ios/20/000000/stacked-organizational-chart-highlighted-first-node.png" /></div>
+                                SubCategory
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                            </a>
+                            <div class="collapse" id="subcategoryLayout" aria-labelledby="headingOne">
+                                <nav class="sb-sidenav-menu-nested nav">
+                                    <a class="nav-link" href="/SubCategory/">List</a>
+                                </nav>
+                            </div>
+
+                        }
+                        @if (User.IsInRole(UserRoles.SuperAdmin) || User.IsInRole(UserRoles.Admin))
+                        {
+                            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#controlCenterLayout" aria-expanded="false">
+                                <div class="sb-nav-link-icon"><img src="https://img.icons8.com/color/20/000000/align-cell-content-center.png" /></div>
+                                Control Center
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                            </a>
+                            <div class="collapse" id="controlCenterLayout" aria-labelledby="headingOne">
+                                <nav class="sb-sidenav-menu-nested nav">
+                                    <a class="nav-link" href="/ControlCenter/">List</a>
+                                </nav>
+                            </div>
+
+                        }
+                        @if (User.IsInRole(UserRoles.SuperAdmin) || User.IsInRole(UserRoles.Admin))
+                        {
+                            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#ReferenceLayout" aria-expanded="false">
+                                <div class="sb-nav-link-icon"><img src="https://img.icons8.com/external-kiranshastry-solid-kiranshastry/20/000000/external-switch-business-and-management-kiranshastry-solid-kiranshastry.png" /></div>
+                                Reference
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                            </a>
+                            <div class="collapse" id="ReferenceLayout" aria-labelledby="headingOne">
+                                <nav class="sb-sidenav-menu-nested nav">
+                                    <a class="nav-link" href="/Reference/">List</a>
+                                </nav>
+                            </div>
+
+                        }
+                        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#ReportLayout" aria-expanded="false">
+                            <div class="sb-nav-link-icon"><img src="https://img.icons8.com/external-itim2101-flat-itim2101/20/000000/external-report-project-management-itim2101-flat-itim2101.png" /></div>
+                            Report
+                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                        </a>
+                        <div class="collapse" id="ReportLayout" aria-labelledby="headingOne">
+                            <nav class="sb-sidenav-menu-nested nav">
+                                <a class="nav-link" href="/Report/JobReport">Job Report</a>
+                            </nav>
+                        </div>
+
+                        <a class="nav-link collapsed" href="/Quotation/"  aria-expanded="false">
+                            <div class="sb-nav-link-icon"><img src="https://img.icons8.com/external-itim2101-flat-itim2101/20/000000/external-report-project-management-itim2101-flat-itim2101.png" /></div>
+                            Quotation
+                        </a>
+
+                        <a class="nav-link collapsed" href="/ContactUs/" aria-expanded="false">
+                            <div class="sb-nav-link-icon"><img src="https://img.icons8.com/external-itim2101-flat-itim2101/20/000000/external-report-project-management-itim2101-flat-itim2101.png" /></div>
+                            Contact Us
+                        </a>
+                    </div>
+                </div>
+            </nav>
+        </div>
+
+        <div id="layoutSidenav_content">
+
+            @RenderBody()
+
+        </div>
+
+    </div>
+
+    <script src="~/Content/js/angular.min.js"></script>
+    <script src="~/Content/UiSelect2/Select.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular-sanitize.js"></script>
+    <script src="~/Content/js/moment.min.js"></script>
+    <script src="~/Content/js/toaster.js"></script>
+    @Scripts.Render("~/Content/js/Angular/AngularBundle")
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/danialfarid-angular-file-upload/12.2.13/ng-file-upload.min.js"></script>
+    <script src="~/Content/js/angular-chart.js"></script>
+    @Scripts.Render("~/bundles/bootstrap")
+    <script src="~/Content/js/angular-chart.min.js"></script>
+    @RenderSection("scripts", required: false)
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.15.6/xlsx.full.min.js"></script>
+    <script src="~/Scripts/FileSaver.js"></script>
+    @*<script src="~/Scripts/jquery.dataTables.min.js"></script>
+        <script src="~/Scripts/dataTables.bootstrap4.min.js"></script>*@
+
+    @*<script>
+            $(document).ready(function () {
+                $('#dataTable').DataTable({
+                    "paging": false,
+                    "bInfo": false,
+                    "bFilter": false,
+                    "bProcessing": false
+
+                });
+            });
+        </script>*@
+
+    <script>
+        (function ($) {
+            "use strict";
+
+            // Add active state to sidbar nav links
+            var path = window.location.href; // because the 'href' property of the DOM element is the absolute path
+            $("#layoutSidenav_nav .sb-sidenav a.nav-link").each(function () {
+                if (this.href === path) {
+                    $(this).addClass("active");
+                }
+            });
+
+            // Toggle the side navigation
+            $("#sidebarToggle").on("click", function (e) {
+                e.preventDefault();
+                $("body").toggleClass("sb-sidenav-toggled");
+            });
+
+
+
+
+
+            //Selected link
+            $(function () {
+                console.log(location.pathname.split("/")[1] + "/" + location.pathname.split("/")[2]);
+                console.log(location.pathname.split("/")[1]);
+                if (location.pathname.split("/")[1] != null && location.pathname.split("/")[1] != "") {
+                    if (location.pathname.split("/")[2] != null) {
+                        $('nav a[href^="/' + location.pathname.split("/")[1] + '/' + location.pathname.split("/")[2] + '"]').addClass('active-link');
+                        var anchor = $('nav a[href^="/' + location.pathname.split("/")[1] + '/' + location.pathname.split("/")[2] + '"]');
+                        var nav = anchor.parent();
+                        var div = nav.parent();
+                        div.addClass('show');
+                        div.prev().attr("aria-expanded", "true");
+                        div.prev().removeClass('collapsed');
+                    } else {
+                        var anchor = $('nav a[href^="/' + location.pathname.split("/")[1] + '/' + location.pathname.split("/")[2] + '"]');
+                        var nav = anchor.parent();
+                        var div = nav.parent();
+                        div.addClass('show');
+                        div.prev().attr("aria-expanded", "true");
+                        div.prev().removeClass('collapsed');
+                    }
+                }
+
+
+
+            });
+        })(jQuery);
+
+
+    </script>
+    <script>
+        $(document).ready(function () {
+
+            var down = false;
+
+            $('#bell').click(function (e) {
+
+                var color = $(this).text();
+                if (down) {
+
+                    $('#box').css('height', '0px');
+                    $('#box').css('opacity', '0');
+                    
+                    down = false;
+                } else {
+
+                   $('#box').css('height', '396px');
+                   $('#box').css('opacity', '1');
+                   down = true;
+
+                }
+
+            });
+
+        });
+    </script>
+
+</body>
+</html>

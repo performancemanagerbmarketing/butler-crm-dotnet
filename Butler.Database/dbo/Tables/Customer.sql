@@ -1,0 +1,21 @@
+﻿CREATE TABLE [dbo].[Customer]
+(
+	[Id] INT NOT NULL PRIMARY KEY Identity(1,1),
+	[FullName] nvarchar(max),
+	[Email] varchar(max),
+	[Address] nvarchar(max),
+	[CNIC] nvarchar(max),
+	[Contact] nvarchar(max),
+	[ProfileImageUrl] nvarchar(max),
+	[VerificationImageUrl] nvarchar(max),
+	[CNICFromtImageUrl] nvarchar(max),
+	[CNICBackImageUrl] nvarchar(max),
+	[VerificationStatus] bit not null default(0),
+	[Status] bit not null default(0),
+	[CreatedAt] datetime,
+	[CreatedBy] nvarchar(max),
+	[UpdatedAt] datetime,
+	[UpdatedBy] nvarchar(max),
+	[Date] datetime,
+	[IsAdded] bit not null default(0),
+)

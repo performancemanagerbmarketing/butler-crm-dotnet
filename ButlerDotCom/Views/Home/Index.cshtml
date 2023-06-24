@@ -1,0 +1,415 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+<link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">
+@*======================================================Cards Boxes============================================================*@
+<div class="container-fluid p-5" ng-controller="HomeCtrl" ng-init="InitDashboard()">
+    <div class="row crds " style="padding:10px;margin-bottom:20px;">
+        <div class="col-5">
+            <h2>Dashboard</h2>
+        </div>
+        <div class="col-3">
+            <div class="form-group">
+                <lable>From</lable>
+                <input class="form-control" type="date" ng-model="Request.DateFrom" placeholder="Enter Name">
+            </div>
+        </div>
+        <div class="col-3">
+            <div class="form-group">
+                <lable>To</lable>
+                <input class="form-control" type="date" ng-model="Request.DateTo" placeholder="Enter Name">
+            </div>
+        </div>
+        <div class="col-1">
+            <button ng-click="GetSummary(Request)" class="btn btn-success">
+                Get
+            </button>
+        </div>
+    </div>
+    <div class="row crds">
+
+        <div class="col-xl-3 col-lg-6 mt-4">
+            <div class="cardash l-bg-cherry">
+                <div class="card-statistic-3" style="padding: 18px;">
+
+                    <div class="mb-4">
+                        <div class="card-icon card-icon-large">
+                            <i class="fas fa-shopping-cart"></i>
+                        </div>
+                        <h5 class="card-title mb-0">Pending Jobs</h5>
+                    </div>
+                    <div class="row align-items-center mb-2 d-flex">
+                        <div class="col-12">
+                            <h2 class="d-flex align-items-center mb-0">
+                                {{Summary.PendingJobs | number}}
+                            </h2>
+                        </div>
+                    </div>
+                    <div class="progress mt-1 " data-height="8" style="height: 8px;">
+                        <div class="progress-bar l-bg-cyan w-{{Summary.PendingJobs}}" role="progressbar" data-width="25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-lg-6 mt-4">
+            <div class="cardash l-bg-green-dark">
+                <div class="card-statistic-3" style="padding: 18px;">
+                    <div class="card-icon card-icon-large"><i class="fas fa-ticket-alt"></i></div>
+                    <div class="mb-4">
+                        <h5 class="card-title mb-0">Jobs Completed</h5>
+                    </div>
+                    <div class="row align-items-center mb-2 d-flex">
+                        <div class="col-12">
+                            <h2 class="d-flex align-items-center mb-0">
+                                {{Summary.CompletedJobs | number}}
+                            </h2>
+                        </div>
+                    </div>
+                    <div class="progress mt-1 " data-height="8" style="height: 8px;">
+                        <div class="progress-bar l-bg-orange w-{{Summary.CompletedJobs}}" role="progressbar" data-width="25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+         <div class="col-xl-3 col-lg-6 mt-4">
+            <div class="cardash l-bg-blue-dark">
+                <div class="card-statistic-3" style="padding: 18px;">
+                    <div class="card-icon card-icon-large"><i class="fas fa-solid fa-hourglass-end"></i></div>
+                    <div class="mb-4">
+                        <h5 class="card-title mb-0">On Survey</h5>
+                    </div>
+                    <div class="row align-items-center mb-2 d-flex">
+                        <div class="col-12">
+                            <h2 class="d-flex align-items-center mb-0">
+                                {{Summary.JobsStarted | number}}
+                            </h2>
+                        </div>
+                    </div>
+                    @*<div class="progress mt-1 " data-height="8" style="height: 8px;">
+                        <div class="progress-bar l-bg-green w-{{Summary.Customers}}" role="progressbar" data-width="25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>*@
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-lg-6 mt-4">
+            <div class="cardash l-bg-orange-dark">
+                <div class="card-statistic-3" style="padding: 18px;">
+                    <div class="card-icon card-icon-large"><i class="fas fa-dollar-sign"></i></div>
+                    <div class="mb-4">
+                        <h5 class="card-title mb-0">Total Revenue</h5>
+                    </div>
+                    <div class="row align-items-center mb-2 d-flex">
+                        <div class="col-12">
+                            <h2 class="d-flex align-items-center mb-0">
+                                PKR{{Summary.Revenue | number}}
+                            </h2>
+                        </div>
+                    </div>
+                    @*<div class="progress mt-1 " data-height="8" style="height: 8px;">
+                        <div class="progress-bar l-bg-cyan  w-{{Summary.Revenue}}" role="progressbar" data-width="25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>*@
+                </div>
+            </div>
+        </div>
+         <div class="col-xl-3 col-lg-6 mt-4">
+            <div class="cardash l-bg-orange-dark">
+                <div class="card-statistic-3" style="padding: 18px;">
+                    <div class="card-icon card-icon-large"><i class="fas fa-regular fa-star"></i></div>
+                    <div class="mb-4">
+                        <h5 class="card-title mb-0">Job Started</h5>
+                    </div>
+                    <div class="row align-items-center mb-2 d-flex">
+                        <div class="col-12">
+                            <h2 class="d-flex align-items-center mb-0">
+                                {{Summary.JobsStarted | number}}
+                            </h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+         <div class="col-xl-3 col-lg-6 mt-4">
+            <div class="cardash l-bg-cherry">
+                <div class="card-statistic-3" style="padding: 18px;">
+                    <div class="card-icon card-icon-large"><i class="fas fa-star-half-alt"></i></div>
+                    <div class="mb-4">
+                        <h5 class="card-title mb-0">Awaiting Completion</h5>
+                    </div>
+                    <div class="row align-items-center mb-2 d-flex">
+                        <div class="col-12">
+                            <h2 class="d-flex align-items-center mb-0">
+                                {{Summary.AwaitingCompletionJobs | number}}
+                            </h2>
+                        </div>
+                    </div>
+                    <div class="progress mt-1 " data-height="8" style="height: 8px;">
+                        <div class="progress-bar l-bg-cyan w-{{Summary.AwaitingCompletionJobs}}" role="progressbar" data-width="25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+         <div class="col-xl-3 col-lg-6 mt-4">
+            <div class="cardash l-bg-green-dark">
+                <div class="card-statistic-3" style="padding: 18px;">
+                    <div class="card-icon card-icon-large"><i class="fas fa-regular fa-hourglass"></i></div>
+                    <div class="mb-4">
+                        <h5 class="card-title mb-0">Awaiting Survey</h5>
+                    </div>
+                    <div class="row align-items-center mb-2 d-flex">
+                        <div class="col-12">
+                            <h2 class="d-flex align-items-center mb-0">
+                               0
+                            </h2>
+                        </div>
+                    </div>
+                    <div class="progress mt-1 " data-height="8" style="height: 8px;">
+                        <div class="progress-bar l-bg-orange w-{{Summary.AwaitingCompletionJobs}}" role="progressbar" data-width="25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+         <div class="col-xl-3 col-lg-6 mt-4">
+            <div class="cardash l-bg-blue-dark">
+                <div class="card-statistic-3" style="padding: 18px;">
+                    <div class="card-icon card-icon-large"><i class="fas fa-times"></i></div>
+                    <div class="mb-4">
+                        <h5 class="card-title mb-0">Cancelled</h5>
+                    </div>
+                    <div class="row align-items-center mb-2 d-flex">
+                        <div class="col-12">
+                            <h2 class="d-flex align-items-center mb-0" ng-bind="Summary.CancelledJobs | number">
+                            </h2>
+                        </div>
+                    </div>
+                    @*<div class="progress mt-1 " data-height="8" style="height: 8px;">
+                        <div class="progress-bar l-bg-green w-{{Summary.Customers}}" role="progressbar" data-width="25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>*@
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+    @*======================================================tables============================================================*@
+    <div class="row crds mt-4">
+        <div class="col-md-12 pt-2 ">
+            <div class="card" style=" height: 200px; overflow-y: auto;">
+                <div class="card-header font-weight-bold">
+                    Pending
+                </div>
+                <div class="card-body">
+                    <table class="table">
+                        <thead class="thead-light">
+                            <tr>
+                                <th scope="col">Id</th>
+                                <th scope="col">Customer</th>
+                                <th scope="col">Services</th>
+                                <th scope="col">Tel#</th>
+                                <th scope="col">Address</th>
+                                <th scope="col">Description</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Created At</th>
+                                <th scope="col">Updated At</th>
+                                <th scope="col">Edit</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="row in JobSummaryList.PendingJobList">
+                                <th scope="row" ng-bind="row.Id"></th>
+                                <td ng-bind="row.Customer"></td>
+                                <td ng-bind="row.Services"></td>
+                                <td ng-bind="row.Contact"></td>
+                                <td ng-bind="row.Address"></td>
+                                <td ng-bind="row.Description"></td>
+                                <td ng-bind="row.Status"></td>
+                                <td ng-bind="row.CreatedAt  | date:'dd-MMM-yyyy'"></td>
+                                <td ng-bind="row.UpdatedAt  | date:'dd-MMM-yyyy'"></td>
+                                <td><a title="Edit" class="" style="color:#d49e11" href="/Job/Edit?Id={{row.Id}}"><i class="fas fa-pencil-alt"></i></a></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+        @*======================================================Tables============================================================*@
+
+    </div>
+    @*=========================================================Remaning tables==========================================================================*@
+    
+    
+    
+    <div class="row crds mt-4">
+        <div class="col-md-12 p-2">
+            <div class="card" style=" height: 200px; overflow-y: auto;">
+                <div class="card-header font-weight-bold">
+                    Job Started
+                </div>
+                <div class="card-body">
+                    <table class="table">
+                        <thead class="thead-light">
+                            <tr>
+                                <th scope="col">Id</th>
+                                <th scope="col">Customer</th>
+                                <th scope="col">Services</th>
+                                <th scope="col">Tel#</th>
+                                <th scope="col">Address</th>
+                                <th scope="col">Description</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Created At</th>
+                                <th scope="col">Updated At</th>
+                                <th scope="col">Edit</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="row in JobSummaryList.StartedJobList">
+                                <th scope="row" ng-bind="row.Id"></th>
+                                <td ng-bind="row.Customer"></td>
+                                <td ng-bind="row.Services"></td>
+                                <td ng-bind="row.Contact"></td>
+                                <td ng-bind="row.Address"></td>
+                                <td ng-bind="row.Description"></td>
+                                <td ng-bind="row.Status"></td>
+                                <td ng-bind="row.CreatedAt  | date:'dd-MMM-yyyy'"></td>
+                                <td ng-bind="row.UpdatedAt  | date:'dd-MMM-yyyy'"></td>
+                                <td><a title="Edit" class="" style="color:#d49e11" href="/Job/Edit?Id={{row.Id}}"><i class="fas fa-pencil-alt"></i></a></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row crds mt-4">
+        <div class="col-md-12 p-2">
+            <div class="card" style=" height: 200px; overflow-y: auto;">
+                <div class="card-header font-weight-bold">
+                    Awaiting Completion
+                </div>
+                <div class="card-body">
+                    <table class="table">
+                        <thead class="thead-light">
+                            <tr>
+                                <th scope="col">Id</th>
+                                <th scope="col">Customer</th>
+                                <th scope="col">Services</th>
+                                <th scope="col">Tel#</th>
+                                <th scope="col">Address</th>
+                                <th scope="col">Description</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Created At</th>
+                                <th scope="col">Updated At</th>
+                                <th scope="col">Edit</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="row in JobSummaryList.InProcessJobList">
+                                <th scope="row" ng-bind="row.Id"></th>
+                                <td ng-bind="row.Customer"></td>
+                                <td ng-bind="row.Services"></td>
+                                <td ng-bind="row.Contact"></td>
+                                <td ng-bind="row.Address"></td>
+                                <td ng-bind="row.Description"></td>
+                                <td ng-bind="row.Status"></td>
+                                <td ng-bind="row.CreatedAt  | date:'dd-MMM-yyyy'"></td>
+                                <td ng-bind="row.UpdatedAt  | date:'dd-MMM-yyyy'"></td>
+                                <td><a title="Edit" class="" style="color:#d49e11" href="/Job/Edit?Id={{row.Id}}"><i class="fas fa-pencil-alt"></i></a></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row crds mt-4">
+        <div class="col-md-12 p-2">
+            <div class="card" style=" height: 200px; overflow-y: auto;">
+                <div class="card-header font-weight-bold" style="width: 1322px;">
+                    Job Completed
+                </div>
+                <div class="card-body">
+                    <table class="table">
+                        <thead class="thead-light">
+                            <tr>
+                                <th scope="col">Id</th>
+                                <th scope="col">Customer</th>
+                                <th scope="col">Services</th>
+                                <th scope="col">Workers</th>
+                                <th scope="col">Tel#</th>
+                                <th scope="col">Address</th>
+                                <th scope="col">Description</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Material Cost</th>
+                                <th scope="col">Total Cost</th>
+                                <th scope="col">Created At</th>
+                                <th scope="col">Updated At</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="row in JobSummaryList.CompletedJobList">
+                                <th scope="row" ng-bind="row.Id"></th>
+                                <td ng-bind="row.Customer"></td>
+                                <td ng-bind="row.Services"></td>
+                                <td ng-bind="row.Workers"></td>
+                                <td ng-bind="row.Contact"></td>
+                                <td ng-bind="row.Address"></td>
+                                <td ng-bind="row.Description"></td>
+                                <td ng-bind="row.Status"></td>
+                                <td ng-bind="row.MaterialCost | number"></td>
+                                <td ng-bind="row.TotalAmount | number"></td>
+                                <td ng-bind="row.CreatedAt  | date:'dd-MMM-yyyy'"></td>
+                                <td ng-bind="row.UpdatedAt  | date:'dd-MMM-yyyy'"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row crds mt-4">
+        <div class="col-md-12 p-2">
+            <div class="card" style=" height: 200px; overflow-y: auto;">
+                <div class="card-header font-weight-bold">
+                    Cancelled
+                </div>
+                <div class="card-body">
+                    <table class="table">
+                        <thead class="thead-light">
+                            <tr>
+                                <th scope="col">ID</th>
+                                <th scope="col">Customer</th>
+                                <th scope="col">Services</th>
+                                <th scope="col">Worker</th>
+                                <th scope="col">Tel#</th>
+                                <th scope="col">Address</th>
+                                <th scope="col">Description</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Created At</th>
+                                <th scope="col">Updated At</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="row in JobSummaryList.CancelledJobList">
+                                <th scope="row" ng-bind="row.Id"></th>
+                                <td ng-bind="row.Customer"></td>
+                                <td ng-bind="row.Services"></td>
+                                <td ng-bind="row.Workers"></td>
+                                <td ng-bind="row.Contact"></td>
+                                <td ng-bind="row.Address"></td>
+                                <td ng-bind="row.Description"></td>
+                                <td ng-bind="row.Status"></td>
+                                <td ng-bind="row.MaterialCost | number"></td>
+                                <td ng-bind="row.TotalAmount | number"></td>
+                                <td ng-bind="row.CreatedAt  | date:'dd-MMM-yyyy'"></td>
+                                <td ng-bind="row.UpdatedAt  | date:'dd-MMM-yyyy'"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>

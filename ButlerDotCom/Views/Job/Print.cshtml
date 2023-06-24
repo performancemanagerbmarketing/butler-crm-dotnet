@@ -1,0 +1,165 @@
+﻿@model Butler.Model.Request.Job.GetInvoiceDetailResponse
+@{
+    ViewBag.Title = "Print";
+    Layout = "~/Views/Shared/_Sub-DashLayout.cshtml";
+    var indianCulture = new System.Globalization.CultureInfo("hi-IN");
+}
+<style>
+    table,td,th{
+        border:1px solid black;
+    }
+    .tablehead{
+        background:lightgrey;
+    }
+</style>
+<div  class="container-fluid">
+    <div class="jumbotron bg-white m-4">
+        <div>
+            <div class="CutomerInvoiceHeader text-center">
+                <img class="CutomerInvoiceHeaderImage" src="~/Content/Images/png_logo_purple.png" />
+                <div class="mt-2">
+                    <h4>Customer Bill</h4>
+                </div>
+            </div>
+           
+            <div class="row border-bottom-solid">
+                <div class="col-12">
+                    <h5>Customer Information</h5>
+                </div>
+            </div>
+            <div class="mb-3 border-bottom-solid mb-3">
+                <div class="row">
+                    <div class="col-2 title">Service:</div>
+                    <div class="col-10">@Model.Id</div>
+                </div>
+                <div class="row">
+                    <div class="col-2 title">Completed on:</div>
+                    <div class="col-10">@Model.CompleteDate</div>
+                </div>
+                <div class="row">
+                    <div class="col-2 title">Customer Name:</div>
+                    <div class="col-10">@Model.CustomerName</div>
+                </div>
+                <div class="row">
+                    <div class="col-2 title">Address:</div>
+                    <div class="col-10">@Model.JobAddress</div>
+                </div>
+                <div class="row">
+                    <div class="col-2 title">Order Number:</div>
+                    <div class="col-10">#@Model.Id</div>
+                </div>
+                <div class="row">
+                    <div class="col-2 title">Payment Status:</div>
+                    <div class="col-10">@Model.PaymentStatusEnum</div>
+                </div>
+            </div>
+            <div class="table table-responsive">
+                @if (Model.JobDetail.Count() > 0)
+                {
+                    <div class="row ">
+                        <div class="col-12">
+                            <h5>Services</h5>
+                        </div>
+                    </div>
+                    <table class="table table-bordered" style="width:100%">
+                        <thead>
+                            <tr class="tablehead">
+                                <th class="">
+                                    Name
+                                </th>
+                                <th>
+                                    Price
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var service in Model.JobDetail)
+                            {
+
+                                <tr>
+                                    <td>@service.SubCategoryName</td>
+                                    <td>@string.Format(indianCulture, "{0:N}", service.Amount)</td>
+                                </tr>
+
+                            }
+                            <tr>
+                                <td class="text-right">Total</td>
+                                <td>@string.Format(indianCulture, "{0:N}", Model.JobDetail.Sum(x => x.Amount))</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                }
+
+                @if (Model.Material.Count() > 0)
+                {
+                    <div class="row ">
+                        @if (Model.Type == 0)
+                        {
+                            <div class="col-12">
+                                <h5>Material Cost</h5>
+                            </div>
+                        }
+
+                        @if (Model.Type == 1)
+                        {
+                            <div class="col-12">
+                                <h5>Equipment Cost</h5>
+                            </div>
+                        }
+                    </div>
+                    <table class="table table-bordered" style="width:100%">
+                        <thead>
+                            <tr class="tablehead">
+                                <th class="">
+                                    Name
+                                </th>
+                                <th>
+                                    Price
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var material in Model.Material)
+                            {
+
+                                <tr>
+                                    <td>@material.MaterialName</td>
+                                    <td>@string.Format(indianCulture, "{0:N}", material.Cost)</td>
+                                </tr>
+
+                            }
+                            <tr>
+                                <td class="text-right">Total</td>
+                                <td>@string.Format(indianCulture, "{0:N}", Model.Material.Sum(x => x.Cost))</td>
+                            </tr>
+                        </tbody>
+                        </table>
+                }
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="row">
+                        <div class="col-9 text-right">Total Services =</div>
+                        <div class="col-3 "><b>@string.Format(indianCulture, "{0:N}", Model.JobDetail.Sum(x => x.Amount))</b></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-9 text-right">Total Material =</div>
+                        <div class="col-3 " style="border-bottom: 1px solid;"><b>@string.Format(indianCulture, "{0:N}", Model.Material.Sum(x => x.Cost))</b></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-9 text-right">Total Amount =</div>
+                        <div class="col-3 "><b>@string.Format(indianCulture, "{0:N}", Model.JobDetail.Sum(x => x.Amount) + Model.Material.Sum(x => x.Cost))</b></div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <p class="font-italic font-weight-bold text-center">Thank you for contacting Butler Services</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+
+</script>

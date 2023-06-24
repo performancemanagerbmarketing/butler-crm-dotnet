@@ -1,0 +1,87 @@
+﻿
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Sub-DashLayout.cshtml";
+}
+
+<div ng-controller="CategoryCtrl" ng-init="EditInit()" class="container-fluid body-content">
+    <div class="row crds ml-1 p-3 br5">
+        <div class="col-12 d-flex align-items-center justify-content-between">
+            <h4>Edit Category</h4>
+        </div>
+    </div>
+
+    <div class="crds ml-1 p-3 br5 mt-2">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <lable>Name</lable>
+                    <input class="form-control" type="text" ng-model="Category.Name" placeholder="Enter Name">
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <lable>Description</lable>
+                    <input class="form-control" type="text" ng-model="Category.Description" placeholder="Enter Description">
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <lable>Type</lable>
+                    <select class="form-control" id="exampleFormControlSelect1" ng-model="Category.Type">
+                        <option selected>Select Type</option>
+                        <option ng-selected="Category.Type == 0" value="0">General</option>
+                        <option ng-selected="Category.Type == 1" value="1">Medical</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <lable>Is Active</lable>
+                    <div class="row">
+                        <div class="ml-3 col-md-2">
+                            <input class="form-check-input" ng-model="Category.IsAdded" ng-checked="Category.IsAdded == true" type="radio" name="exampleRadios" id="exampleRadios1" value="true">
+                            <label class="form-check-label" for="exampleRadios1">
+                                Yes
+                            </label>
+                        </div>
+                        <div class="col-md-3">
+                            <input class="form-check-input" ng-model="Category.IsAdded" ng-checked="Category.IsAdded == false" type="radio" name="exampleRadios" id="exampleRadios2" value="false">
+                            <label class="form-check-label" for="exampleRadios1">
+                                No
+                            </label>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-6">
+                <label>Profile Image</label>
+                <input type="file" accept="image/*" ngf-select="UploadCategoryImage($files,'ProfileImageUrl')" class="form-control-file" />
+            </div>
+            <div class="form-group col-md-6">
+                <img style="max-height: 413px;max-width:200px" ng-src="{{Category.ProfileImageUrl}}" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-6">
+                <label>Web Image</label>
+                <input type="file" accept="image/*" ngf-select="UploadCategoryImage($files,'WebImageUrl')" class="form-control-file" />
+            </div>
+            <div class="form-group col-md-6">
+                <img style="max-height: 413px;max-width:200px" ng-src="{{Category.WebImageUrl}}" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 ">
+                <a ng-click="EditCategory(Category)" class="btn btn-primary float-right">
+                    Submit
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+

@@ -1,0 +1,61 @@
+﻿
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Sub-DashLayout.cshtml";
+}
+
+<div ng-controller="ControlCenterCtrl" ng-init="EditInit()" class="container-fluid body-content">
+    <div class="row crds ml-1 p-3 br5">
+        <div class="col-10">
+            <h4>Edit Control Center</h4>
+        </div>
+    </div>
+
+    <div class="crds ml-1 p-3 br5 mt-2">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <lable>Name</lable>
+                    <input class="form-control" type="text" ng-model="ControlCenter.Name" placeholder="Enter Name">
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <lable>Latitude</lable>
+                    <input class="form-control" type="number" ng-model="ControlCenter.Latitude" placeholder="Enter Latitude">
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <lable>Longitude</lable>
+                    <input class="form-control" type="number" ng-model="ControlCenter.Longitude" placeholder="Enter Longitude">
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <lable>Location</lable>
+                    <input class="form-control" type="number" ng-model="ControlCenter.LocationId" placeholder="Enter LocationId">
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <lable>Location Name</lable>
+                    <input class="form-control" type="text" ng-model="ControlCenter.LocationName" placeholder="Enter Location Name">
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12 ">
+                <a ng-click="EditControlCenter(ControlCenter)" class="btn btn-primary float-right">
+                    Submit
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+

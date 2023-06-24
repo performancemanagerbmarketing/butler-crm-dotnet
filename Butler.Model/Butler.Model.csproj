@@ -1,0 +1,291 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{07A90C5D-8E4A-44EF-95AA-F235CA2A688B}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Butler.Model</RootNamespace>
+    <AssemblyName>Butler.Model</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.3\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Owin, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Owin.2.2.3\lib\net45\Microsoft.AspNet.Identity.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.3.0.1\lib\net45\Microsoft.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.3.0.1\lib\net45\Microsoft.Owin.Security.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Cookies, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.Cookies.3.0.1\lib\net45\Microsoft.Owin.Security.Cookies.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.OAuth, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.OAuth.3.0.1\lib\net45\Microsoft.Owin.Security.OAuth.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
+      <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Class1.cs" />
+    <Compile Include="EntityModel\AspNetRoles.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityModel\AspNetUserClaims.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityModel\AspNetUserLogins.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityModel\AspNetUsers.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityModel\Category.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityModel\ContactUs.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityModel\ControlCenter.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityModel\ControllerCategory.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityModel\Customer.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityModel\Job.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityModel\JobDetail.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityModel\JobWorker.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityModel\MaterialCost.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityModel\Model.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Model.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityModel\Model.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityModel\Model.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Model.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="EntityModel\Notification.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityModel\Others.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityModel\Quotations.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityModel\Reference.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityModel\ServiceRating.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityModel\SubCategory.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityModel\UserFileUpload.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityModel\UserProfile.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityModel\Worker.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityModel\WorkerAttendance.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Enum\CategoryType.cs" />
+    <Compile Include="Enum\JobStatus.cs" />
+    <Compile Include="Enum\PaymentStatus.cs" />
+    <Compile Include="Enum\UserType.cs" />
+    <Compile Include="Enum\FileType.cs" />
+    <Compile Include="Enum\Roles.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Request\Admin\EditAdminRequest.cs" />
+    <Compile Include="Request\Admin\GetAdminListRequest.cs" />
+    <Compile Include="Request\Admin\GetAdminRequest.cs" />
+    <Compile Include="Request\Base\Response.cs" />
+    <Compile Include="Request\Category\AddCategoryRequest.cs" />
+    <Compile Include="Request\Category\DeleteCategoryRequest.cs" />
+    <Compile Include="Request\Category\EditCategoryRequest.cs" />
+    <Compile Include="Request\Category\GetAppCategoryListRequest.cs" />
+    <Compile Include="Request\Category\GetCategoryDropdownRequest.cs" />
+    <Compile Include="Request\Category\GetCategoryListRequest.cs" />
+    <Compile Include="Request\Category\GetCategoryRequest.cs" />
+    <Compile Include="Request\Category\GetServiceCategoryListRequest.cs" />
+    <Compile Include="Request\ContactUs\AddContactUsRequest.cs" />
+    <Compile Include="Request\ContactUs\EditContactUsRequest.cs" />
+    <Compile Include="Request\ContactUs\GetContactUsListRequest.cs" />
+    <Compile Include="Request\ContactUs\GetContactUsRequest.cs" />
+    <Compile Include="Request\ControlCenter\AddControlCenterRequest.cs" />
+    <Compile Include="Request\ControlCenter\EditControlCenterRequest.cs" />
+    <Compile Include="Request\ControlCenter\GetControlCenterDropdownRequest.cs" />
+    <Compile Include="Request\ControlCenter\GetControlCenterListRequest.cs" />
+    <Compile Include="Request\ControlCenter\GetControlCenterRequest.cs" />
+    <Compile Include="Request\Controller\EditControllerRequest.cs" />
+    <Compile Include="Request\Controller\GetControllerListRequest.cs" />
+    <Compile Include="Request\Controller\GetControllerRequest.cs" />
+    <Compile Include="Request\CurrentUserLogin\GetCurrentUserLoginRequest.cs" />
+    <Compile Include="Request\CustomerAdmin\AddCustomerRequest.cs" />
+    <Compile Include="Request\CustomerAdmin\EditCustomerRequest.cs" />
+    <Compile Include="Request\CustomerAdmin\GetCustomerListRequest.cs" />
+    <Compile Include="Request\CustomerAdmin\GetCustomerRequest.cs" />
+    <Compile Include="Request\Customer\EditCustomerRequest.cs" />
+    <Compile Include="Request\CustomerAdmin\GetCustomerDropdownRequest.cs" />
+    <Compile Include="Request\Customer\GetCustomerListRequest.cs" />
+    <Compile Include="Request\Customer\GetCustomerRequest.cs" />
+    <Compile Include="Request\Dashboard\GetDashboardSummaryRequest.cs" />
+    <Compile Include="Request\Dashboard\GetJobSummaryListRequest.cs" />
+    <Compile Include="Request\FileUpload\AddFileRequest.cs" />
+    <Compile Include="Request\FileUpload\GetFileUploadRequest.cs" />
+    <Compile Include="Request\Job\ActiveBookingRequest.cs" />
+    <Compile Include="Request\Job\AddAppJobRequest.cs" />
+    <Compile Include="Request\Job\AddJobDetailRequest.cs" />
+    <Compile Include="Request\Job\AddJobRequest.cs" />
+    <Compile Include="Request\Job\AddJobWorkerRequest.cs" />
+    <Compile Include="Request\Job\AddOtherServiceRequest.cs" />
+    <Compile Include="Request\Job\ApplicationJobRequest.cs" />
+    <Compile Include="Request\Job\ApplyDiscountRequest.cs" />
+    <Compile Include="Request\Job\AssignJobRequest.cs" />
+    <Compile Include="Request\Job\EditJobRequest.cs" />
+    <Compile Include="Request\Job\GetBookingDetailRequest.cs" />
+    <Compile Include="Request\Job\GetInvoiceDetailRequest.cs" />
+    <Compile Include="Request\Job\GetJobListRequest.cs" />
+    <Compile Include="Request\Job\GetJobRequest.cs" />
+    <Compile Include="Request\Job\PreviousBookingRequest.cs" />
+    <Compile Include="Request\Job\Reponse.cs" />
+    <Compile Include="Request\Job\UpdatePaymentStatusRequest.cs" />
+    <Compile Include="Request\Job\UpdateStatusRequest.cs" />
+    <Compile Include="Request\Notification\GetNotificationListRequest.cs" />
+    <Compile Include="Request\Notification\IsReadNotificationRequest.cs" />
+    <Compile Include="Request\Quotation\AddQuotationRequest.cs" />
+    <Compile Include="Request\Quotation\EditQuotationRequest.cs" />
+    <Compile Include="Request\Quotation\GetQuotationListRequest.cs" />
+    <Compile Include="Request\Quotation\GetQuotationRequest.cs" />
+    <Compile Include="Request\Rating\AddServiceRatingRequest.cs" />
+    <Compile Include="Request\Reference\AddReferenceRequest.cs" />
+    <Compile Include="Request\Reference\EditReferenceRequest.cs" />
+    <Compile Include="Request\Reference\GetReferenceDropdownRequest.cs" />
+    <Compile Include="Request\Reference\GetReferenceListRequest.cs" />
+    <Compile Include="Request\Reference\GetReferenceRequest.cs" />
+    <Compile Include="Request\Report\GetReportListRequest.cs" />
+    <Compile Include="Request\Report\JobReportRequest.cs" />
+    <Compile Include="Request\SubCategory\AddSubCategoryRequest.cs" />
+    <Compile Include="Request\SubCategory\DeleteSubCategoryRequest.cs" />
+    <Compile Include="Request\SubCategory\EditSubCategoryRequest.cs" />
+    <Compile Include="Request\SubCategory\GetAppSubCategoryListRequest.cs" />
+    <Compile Include="Request\SubCategory\GetSubCategoryDropdownRequest.cs" />
+    <Compile Include="Request\SubCategory\GetSubCategoryListRequest.cs" />
+    <Compile Include="Request\SubCategory\GetSubCategoryRequest.cs" />
+    <Compile Include="Request\Worker\AddWorkerRequest.cs" />
+    <Compile Include="Request\Worker\EditWorkerRequest.cs" />
+    <Compile Include="Request\Worker\GetWorkerDropdownRequest.cs" />
+    <Compile Include="Request\Worker\GetWorkerListRequest.cs" />
+    <Compile Include="Request\Worker\GetWorkerRequest.cs" />
+    <Compile Include="WorkerAppRequest\Dashboard\DashboardRequest.cs" />
+    <Compile Include="WorkerAppRequest\JobAssign\ActiveJobRequest.cs" />
+    <Compile Include="WorkerAppRequest\JobAssign\EndJobRequest.cs" />
+    <Compile Include="WorkerAppRequest\JobAssign\PaymentCollectionRequest.cs" />
+    <Compile Include="WorkerAppRequest\JobAssign\PreviousJobRequest.cs" />
+    <Compile Include="WorkerAppRequest\JobAssign\UpdateJobStatusRequest.cs" />
+    <Compile Include="WorkerAppRequest\WorkerAttendance\EndDayRequest.cs" />
+    <Compile Include="WorkerAppRequest\WorkerAttendance\GetMarkedAttendanceRequest.cs" />
+    <Compile Include="WorkerAppRequest\WorkerAttendance\StartDayRequest.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EntityDeploy Include="EntityModel\Model.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>Model.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.Config" />
+    <None Include="EntityModel\Model.edmx.diagram">
+      <DependentUpon>Model.edmx</DependentUpon>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="EntityModel\Model.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Model.Context.cs</LastGenOutput>
+      <DependentUpon>Model.edmx</DependentUpon>
+    </Content>
+    <Content Include="EntityModel\Model.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Model.edmx</DependentUpon>
+      <LastGenOutput>Model.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

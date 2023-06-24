@@ -1,0 +1,166 @@
+﻿
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Sub-DashLayout.cshtml";
+}
+
+<div ng-controller="WorkerCtrl" ng-init="EditInit()" class="container-fluid body-content">
+    <div class="row crds ml-1 p-3 br5">
+        <div class="col-12 d-flex align-items-center justify-content-between">
+            <h4>Edit Worker</h4>
+        </div>
+    </div>
+
+    <div class="crds ml-1 p-3 br5 mt-2">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <lable>First Name</lable>
+                            <input class="form-control" type="text" ng-model="Worker.FirstName" placeholder="Enter First Name">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <lable>Last Name</lable>
+                            <input class="form-control" type="text" ng-model="Worker.LastName" placeholder="Enter Last Name">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <lable>CNIC</lable>
+                            <input class="form-control" type="text" ng-model="Worker.CNIC" placeholder="Enter CNIC">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <lable>Contact</lable>
+                            <input class="form-control" type="tel" ng-model="Worker.Contact" placeholder="Enter Contact">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <lable>Email</lable>
+                            <input class="form-control" disabled type="email" ng-model="Worker.Email" placeholder="Enter Email">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <lable>User Name</lable>
+                            <input class="form-control" disabled type="text" ng-model="Worker.UserName" placeholder="Enter Username">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <lable>Address</lable>
+                            <input class="form-control" type="text" ng-model="Worker.Address" placeholder="Enter Name">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <lable>Is Active Status</lable>
+                    <div class="row">
+                        <div class="ml-3 col-md-2">
+                            <input class="form-check-input" ng-model="Worker.IsActive" type="radio" name="isActive" id="isActive1" value="true">
+                            <label class="form-check-label" for="exampleRadios1">
+                                Yes
+                            </label>
+                        </div>
+                        <div class="col-md-3">
+                            <input class="form-check-input" ng-model="Worker.IsActive" type="radio" name="isActive" id="isActive2" value="false">
+                            <label class="form-check-label" for="exampleRadios1">
+                                No
+                            </label>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <div class="form-group">
+                                <lable>Control Center</lable>
+                                <ui-select ng-model="Worker.ControlCenter" theme="select2" ng-selected=" Worker.ControlCenter == Worker.ControlCenterId" class="form-control select-dropdown">
+                                    <ui-select-match placeholder="Select a control center in the list...">{{$select.selected.Name}}</ui-select-match>
+                                    <ui-select-choices repeat="item in ControlCenterDropdownList | filter: $select.search">
+                                        <div ng-bind-html="item.Name | highlight: $select.search"></div>
+                                    </ui-select-choices>
+                                </ui-select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+        <div class="row">
+            <div class="form-group col-md-6">
+                <label>Profile Image</label>
+                <input type="file" accept="image/*" ngf-select="UploadWorkerImage($files,'ProfileImageUrl')" class="form-control-file" />
+            </div>
+            <div class="form-group col-md-6">
+                <img style="max-height: 413px;max-width:200px" src="{{Worker.ProfileImageUrl}}" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-6">
+                <label>CNIC Front Image</label>
+                <input type="file" accept="image/*" ngf-select="UploadWorkerImage($files,'CNICFrontImageUrl')" class="form-control-file" />
+            </div>
+            <div class="form-group col-md-6">
+
+                <img style="max-height: 413px;max-width:200px" src="{{Worker.CNICFrontImageUrl}}" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-6">
+                <label>CNIC Back Image</label>
+                <input type="file" accept="image/*" ngf-select="UploadWorkerImage($files,'CNICBackImageUrl')" class="form-control-file" />
+            </div>
+            <div class="form-group col-md-6">
+                <img style="max-height: 413px;max-width:200px" src="{{Worker.CNICBackImageUrl}}" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 ">
+                <a ng-click="EditWorker(Worker)" class="btn btn-primary float-right">
+                    Update
+                </a>
+            </div>
+        </div>
+
+    </div>
+   
+
+
+</div>
+
